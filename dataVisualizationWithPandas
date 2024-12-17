@@ -1,0 +1,51 @@
+# Import necessary libraries
+import pandas as pd  # For data manipulation and analysis
+import os            # For working with file paths
+import matplotlib.pyplot as plt  # For data visualization
+
+# Set pandas display option to limit the number of rows displayed to 100
+pd.options.display.max_rows = 100  
+
+# Define the path to the CSV file
+file_path = "files/importData.csv"
+
+# Check if the file exists at the specified path
+if os.path.exists(file_path):
+    
+    # Load the CSV data into a pandas DataFrame
+    data = pd.read_csv(file_path)
+    df = pd.DataFrame(data)  # Optional: explicitly creating a DataFrame
+    
+    # Display the first few rows of the dataset to inspect the structure
+    print(df.head())
+    
+    # Compute and display basic statistics for numerical columns (count, mean, std, etc.)
+    print(df.describe())
+    
+    # Group data by the 'Department' column and count the number of rows (employees) in each group
+    groupByDep = df.groupby('Department').size()
+    print("Counting by Departments: ")
+    print(groupByDep)
+    
+    # Start creating a bar chart to visualize the counts
+    plt.figure(figsize=(8, 5))  # Set the figure size (width=8, height=5 inches)
+    
+    # Plot the grouped data as a bar chart
+    groupByDep.plot(kind="bar", color="skyblue")  # "kind='bar'" creates a bar chart
+    
+    # Add a title and labels to the chart
+    plt.title('Display Number of Employees by Department')
+    plt.xlabel('Department')  # X-axis label
+    plt.ylabel('Number of Employees')  # Y-axis label
+    
+    # Ensure that everything fits nicely in the plot (adjusts spacing)
+    plt.tight_layout()
+    
+    # Display the chart
+    plt.show()
+   
+    # Optionally print the entire DataFrame as a string (commented out for now)
+    # print(df.to_string())
+else:
+    # Print an error message if the file does not exist at the specified path
+    print("File data not found")
